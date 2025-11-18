@@ -125,7 +125,7 @@ class _AddEditTodoScreenState extends State<AddEditTodoScreen> {
                             value: _isCompleted,
                             onChanged: (value) =>
                                 setState(() => _isCompleted = value),
-                            activeColor: themeProvider.primaryColor,
+                            activeThumbColor: themeProvider.primaryColor,
                           ),
                         ],
                       ),
