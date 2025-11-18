@@ -24,7 +24,7 @@ class ThemeSelector extends StatelessWidget {
               Switch(
                 value: themeProvider.isDarkMode,
                 onChanged: (value) => themeProvider.toggleTheme(),
-                activeColor: themeProvider.primaryColor,
+                activeThumbColor: themeProvider.primaryColor,
               ),
             ],
           ),
