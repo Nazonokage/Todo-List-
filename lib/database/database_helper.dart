@@ -19,7 +19,15 @@ class DatabaseHelper {
   Future<Database> _initDatabase() async {
     String path = join(await getDatabasesPath(), 'todo_database.db');
     print('Database path: $path');
-    return await openDatabase(path, version: 1, onCreate: _onCreate);
+    try {
+      return await openDatabase(path, version: 1, onCreate: _onCreate);
+    } catch (e) {
+      print(
+        'Database initialization failed: $e. Attempting to reset database.',
+      );
+      await deleteDatabase(path);
+      return await openDatabase(path, version: 1, onCreate: _onCreate);
+    }
   }
 
   Future<void> _onCreate(Database db, int version) async {
@@ -109,5 +117,12 @@ class DatabaseHelper {
       return maps.first;
     }
     return null;
+  }
+
+  Future<void> resetDatabase() async {
+    String path = join(await getDatabasesPath(), 'todo_database.db');
+    await deleteDatabase(path);
+    _database = null; // Reset the cached database instance
+    _database = await _initDatabase();
   }
 }

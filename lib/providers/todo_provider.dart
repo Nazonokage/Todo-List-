@@ -14,7 +14,17 @@ class TodoProvider with ChangeNotifier {
       print('Loaded ${_todos.length} todos from database');
       notifyListeners();
     } catch (e) {
-      print('Error loading todos: $e');
+      print('Error loading todos: $e. Attempting to reset database.');
+      try {
+        await _dbHelper.resetDatabase();
+        _todos = await _dbHelper.getTodos();
+        print(
+          'Database reset successful. Loaded ${_todos.length} todos from database',
+        );
+        notifyListeners();
+      } catch (resetError) {
+        print('Failed to reset database: $resetError');
+      }
     }
   }
 
